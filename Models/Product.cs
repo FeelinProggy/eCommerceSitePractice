@@ -14,6 +14,12 @@ namespace eCommerceSitePractice.Models
         public int ProductID { get; set; }
 
         /// <summary>
+        /// The category of the product
+        /// </summary>
+        [Required]
+        public required string Category { get; set; }
+
+        /// <summary>
         /// The name of the product
         /// </summary>
         [Required]
