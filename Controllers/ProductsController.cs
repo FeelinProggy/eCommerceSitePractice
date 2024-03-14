@@ -1,6 +1,7 @@
 ﻿using eCommerceSitePractice.Data;
 using eCommerceSitePractice.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceSitePractice.Controllers
@@ -8,9 +9,12 @@ namespace eCommerceSitePractice.Controllers
     public class ProductsController : Controller
     {
         private readonly ProductContext _context;
+        private readonly List<string> _categories;
+
         public ProductsController(ProductContext context)
         {
             _context = context;
+            _categories = new List<string> { "Candy", "Baked Goods", "Merchandise" };
         }
 
         public async Task<IActionResult> Index()
@@ -22,6 +26,7 @@ namespace eCommerceSitePractice.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.Categories = new SelectList(_categories);
             return View();
         }
 
@@ -49,6 +54,7 @@ namespace eCommerceSitePractice.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Categories = new SelectList(_categories);
             return View(productToEdit);
         }
 
