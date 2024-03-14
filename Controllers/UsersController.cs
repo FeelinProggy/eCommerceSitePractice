@@ -39,5 +39,13 @@ namespace eCommerceSitePractice.Controllers
             }
             return View(regModel);
         }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
     }
 }
