@@ -31,17 +31,17 @@ namespace eCommerceSitePractice.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(Product productToAdd)
         {
             if (ModelState.IsValid)
             {
-                _context.Products.Add(product);
+                _context.Products.Add(productToAdd);
                 await _context.SaveChangesAsync();
 
-                ViewData["Message"] = $"{product.Name} was added successfully!";
+                ViewData["Message"] = $"{productToAdd.Name} was added successfully!";
                 return View();
             }
-            return View(product);
+            return View(productToAdd);
         }
 
         [HttpGet]
@@ -103,6 +103,18 @@ namespace eCommerceSitePractice.Controllers
                 return RedirectToAction("Index");
             }
 
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            Product? productDetails = await _context.Products.FindAsync(id);
+
+            if (productDetails == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(productDetails);
         }
 
     }
