@@ -31,9 +31,6 @@
 @foreach (Product item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductID)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Category)
             </td>
             <td>
@@ -46,9 +43,9 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.ProductID">Edit</a>
+                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ProductID">Details</a>
+                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
             </td>
         </tr>
 }
