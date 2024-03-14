@@ -1,6 +1,7 @@
 ﻿using eCommerceSitePractice.Data;
 using eCommerceSitePractice.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCommerceSitePractice.Controllers
 {
@@ -10,6 +11,12 @@ namespace eCommerceSitePractice.Controllers
         public ProductsController(ProductContext context)
         {
             _context = context;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            List<Product> products = await _context.Products.ToListAsync();
+            return View(products);
         }
 
         [HttpGet]
