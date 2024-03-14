@@ -26,7 +26,7 @@ namespace eCommerceSitePractice.Controllers
         }
 
         [HttpPost]
-s        public async Task<IActionResult> Create(Product productToAdd)
+        public async Task<IActionResult> Create(Product productToAdd)
         {
             if (ModelState.IsValid)
             {
