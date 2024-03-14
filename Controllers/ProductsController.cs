@@ -38,5 +38,34 @@ namespace eCommerceSitePractice.Controllers
             }
             return View(product);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            Product? productToEdit = await _context.Products.FindAsync(id);
+
+            if (productToEdit == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(productToEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Product productModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Products.Update(productModel);
+                await _context.SaveChangesAsync();
+
+                TempData["Message"] = $"{productModel.Name} was updated successfully!";
+                return RedirectToAction("Index");
+            }
+            return View(productModel);
+        }
+
+
     }
 }
