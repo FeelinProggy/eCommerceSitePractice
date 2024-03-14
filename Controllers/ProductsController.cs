@@ -38,5 +38,18 @@ namespace eCommerceSitePractice.Controllers
             }
             return View(product);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            Product? productToEdit = await _context.Products.FindAsync(id);
+
+            if (productToEdit == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(productToEdit);
+        }
     }
 }
