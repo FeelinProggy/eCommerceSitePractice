@@ -66,6 +66,38 @@ namespace eCommerceSitePractice.Controllers
             return View(productModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Product? productToDelete = await _context.Products.FindAsync(id);
+
+            if (productToDelete == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(productToDelete);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            Product? productToDelete = await _context.Products.FindAsync(id);
+
+            if (productToDelete != null)
+            {
+                _context.Products.Remove(productToDelete);
+                await _context.SaveChangesAsync();
+                TempData["Message"] = $"{productToDelete.Name} was deleted successfully!";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Message"] = "This product was already deleted.";
+                return RedirectToAction("Index");
+            }
+
+        }
 
     }
 }
