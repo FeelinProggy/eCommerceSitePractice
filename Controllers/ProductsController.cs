@@ -17,7 +17,7 @@ namespace eCommerceSitePractice.Controllers
             _categories = new List<string> { "Candy", "Baked Goods", "Merchandise" };
         }
 
-        public async Task<IActionResult> Index(int? pageNumber, int pageSize = 6)
+        public async Task<IActionResult> Index(int? pageNumber, int pageSize = 3)
         {
             // Pagination
             // Set currentPageNumber to pageNumber if it has a value, else set to 1
@@ -25,11 +25,18 @@ namespace eCommerceSitePractice.Controllers
             // Calculate the number of items to skip for each previous page, offset by 1
             int skipNumber = (currentPageNumber - 1) * pageSize;
 
+            int productCount = await _context.Products.CountAsync();
+            double pagesNeeded = Math.Ceiling((double)productCount / pageSize);
+            int lastPageNumber = Convert.ToInt32(pagesNeeded);
+
             List<Product> products = await _context.Products
                 .Skip(skipNumber)
                 .Take(pageSize)
                 .ToListAsync();
-            return View(products);
+
+            CatalogViewModel catalogModel = 
+                new CatalogViewModel(products, lastPageNumber, currentPageNumber);
+            return View(catalogModel);
         }
 
         [HttpGet]
