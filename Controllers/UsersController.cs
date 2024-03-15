@@ -58,7 +58,7 @@ namespace eCommerceSitePractice.Controllers
 
                 if (u != null)
                 {
-                    // Log user in
+                    HttpContext.Session.SetString("Email", loginModel.Email);
                     return RedirectToAction("Index", "Home");
                 }
                 else

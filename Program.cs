@@ -11,7 +11,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddControllersWithViews();
 
+// Allow session access in Views
+builder.Services.AddHttpContextAccessor();
 
+// Add session - Step 1 of 2
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -30,8 +35,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Add session Step 2 of 2
+app.UseSession(); 
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 
 app.Run();
