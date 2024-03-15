@@ -17,10 +17,26 @@ namespace eCommerceSitePractice.Controllers
             _categories = new List<string> { "Candy", "Baked Goods", "Merchandise" };
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber, int pageSize = 3)
         {
-            List<Product> products = await _context.Products.ToListAsync();
-            return View(products);
+            // Pagination
+            // Set currentPageNumber to pageNumber if it has a value, else set to 1
+            int currentPageNumber = pageNumber ?? 1; 
+            // Calculate the number of items to skip for each previous page, offset by 1
+            int skipNumber = (currentPageNumber - 1) * pageSize;
+
+            int productCount = await _context.Products.CountAsync();
+            double pagesNeeded = Math.Ceiling((double)productCount / pageSize);
+            int lastPageNumber = Convert.ToInt32(pagesNeeded);
+
+            List<Product> products = await _context.Products
+                .Skip(skipNumber)
+                .Take(pageSize)
+                .ToListAsync();
+
+            CatalogViewModel catalogModel = 
+                new CatalogViewModel(products, lastPageNumber, currentPageNumber);
+            return View(catalogModel);
         }
 
         [HttpGet]
