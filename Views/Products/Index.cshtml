@@ -51,12 +51,13 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Price)
+                        @item.Price.ToString("C")
                     </td>
                     <td>
                         <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.ProductID">Edit</a>
                         <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ProductID">Details</a>
                         <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
+                        <a class="btn btn-outline-success" asp-controller="Cart" asp-action="Add" asp-route-id="@item.ProductID">Add to Cart</a>
                     </td>
                 </tr>
             }
