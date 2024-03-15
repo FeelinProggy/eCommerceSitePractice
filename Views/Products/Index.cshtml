@@ -67,8 +67,33 @@ else
 {
     <p>No products found for this page.</p>
 }
-@for (int i = 1; i <= Model.LastPageNumber; i++)
-{
-    <a asp-action="Index" asp-route-pageNumber="@i">@i</a>
-}
-
+<nav aria-label="Game Catalog Pages">
+    <ul class="pagination">
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.CurrentPageNumber - 1)" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for (int i = 1; i <= Model.LastPageNumber; i++)
+        {
+            // If the current page number is equal to the page number, then set the class to active and disable the link
+            @if (i == Model.CurrentPageNumber)
+            {
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link">@i</a> 
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                </li>
+            }
+        }
+        <li class="page-item">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.CurrentPageNumber + 1)" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
