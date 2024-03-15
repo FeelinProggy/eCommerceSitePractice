@@ -47,5 +47,26 @@ namespace eCommerceSitePractice.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginModel)
+        {
+            if (ModelState.IsValid)
+            {
+                User? u = (from user in _context.Users
+                         where user.Email == loginModel.Email &&
+                               user.Password == loginModel.Password
+                         select user).SingleOrDefault();
+
+                if (u != null)
+                {
+                    // Log user in
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login credentials.");
+                }
+            }
+            return View(loginModel);
+        }
     }
 }
